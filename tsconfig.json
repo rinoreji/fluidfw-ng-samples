@@ -21,11 +21,7 @@
     "lib": [
       "es2020",
       "dom"
-    ],
-    "paths": {
-      "url":["./ff-ng-buildfix.ts"],
-      "querystring":["./ff-ng-buildfix.ts"],
-    }
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
