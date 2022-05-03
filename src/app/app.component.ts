@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import TinyliciousClient from '@fluidframework/tinylicious-client';
+import { SharedMap } from 'fluid-framework';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +29,25 @@ import { Component } from '@angular/core';
   `,
   styles: []
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy{
+
+  sharedNotesMap: SharedMap | undefined;
+
+  async ngOnInit() {
+    throw new Error('not implemented');
+  }
+
+  async getFluidData() {
+    const client = new TinyliciousClient();
+
+    const containerSchema = {
+      initialObjects: { sharedNotesMap: SharedMap }
+    };
+
+  }
+
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
   title = 'fluidfw-ng-samples';
 }
