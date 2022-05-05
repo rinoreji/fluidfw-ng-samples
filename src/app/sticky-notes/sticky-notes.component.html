@@ -1,0 +1,12 @@
+<div class="app" >
+  <button (click)="onAddClick()">Add note</button>
+  <button (click)="onClearClick()">Clear</button>
+</div>
+<app-collaborative-text [sharedstring]="sharedString"></app-collaborative-text>
+<ul>
+  <li *ngFor="let note of Notes">
+    <textarea
+      [ngModel]="note.noteText"
+      (ngModelChange)="note.onChange(note.noteId, $event, $event)"></textarea>
+  </li>
+</ul>

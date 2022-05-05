@@ -1,7 +1,13 @@
-# FluidfwNgSamples
+# Fluid Framework - Angular Samples
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.4.
 
+* `npm i @fluidframework/tinylicious-client fluid-framework --save`
+* `npm i --save-dev @types/debug`
+
+## References links
+* [Fluid Framework](https://fluidframework.com/)
+* [Using Fluid with Angular](https://fluidframework.com/docs/recipes/angular/)
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
