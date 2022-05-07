@@ -5,8 +5,10 @@
 <app-collaborative-text [sharedstring]="sharedString"></app-collaborative-text>
 <ul>
   <li *ngFor="let note of Notes">
-    <textarea
+    <!-- <textarea></textarea> -->
+    <app-collaborative-text [sharedstring]="note.noteSText"></app-collaborative-text>
+    <!-- <textarea
       [ngModel]="note.noteText"
-      (ngModelChange)="note.onChange(note.noteId, $event, $event)"></textarea>
+      (ngModelChange)="note.onChange(note.noteId, $event, $event)"></textarea> -->
   </li>
 </ul>

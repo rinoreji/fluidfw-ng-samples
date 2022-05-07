@@ -154,6 +154,8 @@ export class CollaborativeTextComponent implements OnInit, OnDestroy {
   };
 
   async ngOnDestroy() {
-    this.sharedStringHelper!.off("textChanged", this.handleTextChanged);
+    if (this.sharedStringHelper) {
+      this.sharedStringHelper!.off("textChanged", this.handleTextChanged);
+    }
   }
 }

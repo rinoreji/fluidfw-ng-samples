@@ -10,7 +10,7 @@ import {
   SharedMap,
   SharedString,
 } from "fluid-framework";
-import { Board, ID_PREFIX, NoteModel, TEXT_PREFIX } from "./NoteModel";
+import { Board, NoteModel } from "./NoteModel";
 
 const serviceConfig = {
   connection: {
@@ -31,7 +31,7 @@ const serviceConfig = {
 })
 export class StickyNotesComponent implements OnInit, OnDestroy {
   sharedNotesMap: SharedMap | undefined;
-  updateBoard: (() => void) | undefined;
+  updateBoard: ((data: any, islocal: boolean) => void) | undefined;
   board: Board | undefined;
   container: IFluidContainer | undefined;
   sharedString: SharedString | undefined;
@@ -40,11 +40,14 @@ export class StickyNotesComponent implements OnInit, OnDestroy {
     if (this.board!) return this.board!.notes;
     return [];
   }
+
   async ngOnInit() {
     this.sharedNotesMap = await this.getFluidData();
     this.board = new Board(this.container!);
-    this.sharedString = this.container?.initialObjects['sharedString'] as SharedString;
-    this.syncData();
+    this.sharedString = this.container?.initialObjects[
+      "sharedString"
+    ] as SharedString;
+    await this.syncData();
   }
 
   async getFluidData() {
@@ -53,8 +56,9 @@ export class StickyNotesComponent implements OnInit, OnDestroy {
     const schema: ContainerSchema = {
       initialObjects: {
         sharedNotesMap: SharedMap,
-        sharedString: SharedString
+        sharedString: SharedString,
       },
+      dynamicObjectTypes: [SharedString],
     };
 
     await client.createContainer(schema);
@@ -75,15 +79,17 @@ export class StickyNotesComponent implements OnInit, OnDestroy {
     return container.initialObjects["sharedNotesMap"] as SharedMap;
   }
 
-  syncData() {
+  async syncData() {
     // Only sync if the Fluid SharedMap object is defined.
     if (this.sharedNotesMap) {
       // TODO 4: Set the value of the localTimestamp state object that will appear in the UI.
-      this.updateBoard = () => {
-        this.board!.refresh();
+      this.updateBoard = async (data: any, islocal: boolean) => {
+        console.log("updateBoard", data, islocal);
+        // if(!islocal)
+        await this.board!.refresh();
       };
 
-      this.updateBoard();
+      await this.board!.refresh();
 
       // TODO 5: Register handlers.
       this.sharedNotesMap!.on("valueChanged", this.updateBoard!);
@@ -91,9 +97,9 @@ export class StickyNotesComponent implements OnInit, OnDestroy {
     }
   }
 
-  onAddClick() {
+  async onAddClick() {
     const NOTE_ID = Date.now().toString();
-    this.board?.addNote(NOTE_ID, `Dummy data ${Date.now().toString()}`);
+    await this.board?.addNote(NOTE_ID, `Dummy data ${Date.now().toString()}`);
   }
   onClearClick() {
     this.board?.removeAll();
